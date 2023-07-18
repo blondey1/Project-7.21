@@ -1,0 +1,146 @@
+
+class airPlane
+{
+ PImage img;
+ int x=-250;
+ airPlane(PImage thisImage)
+ {
+   img=thisImage;
+ }
+ void move()
+ {
+   if(x>1250)
+   {
+    x=-250;
+   }
+   else
+   {
+    x++;
+   } 
+ }
+ void draw() 
+ {
+   imageMode(CENTER);
+   image(img, x, (height/2));
+ }
+}
+//class of the airPlane image.
+
+
+class button
+{
+  int width, height, x, y;
+  color buttonColor = color (173, 216, 230);
+  String link;
+  String title;
+  button(int xpos, int ypos, String thisLink,String thisTitle)
+  {
+    x=xpos;
+    y=ypos;
+    width=210;
+    height=60;
+    link=thisLink;
+    title=thisTitle;
+  }
+  void draw()
+  {
+    fill(0,71,171);  
+    rect(x,y,width,height);
+    fill(255);
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    text(title,x + width/2, y + height/2);
+   if(mouseX > x && mouseX < x+ width && mouseY > y && mouseY < y + height)
+   {
+     cursor(HAND);
+   }
+   if (mousePressed) 
+    {
+      link(link);
+    }
+   else
+   {
+    cursor(ARROW); 
+   }
+  }
+}
+//Class of the button link to every other page
+
+class logo
+{
+  int width, height, x, y;
+  color buttonColor = color (173, 216, 230);
+  String link;
+  String title;
+  logo(int xpos, int ypos, String thisLink)
+  {
+    x=xpos;
+    y=ypos;
+    width=160;
+    height=60;
+    link=thisLink;
+  }
+  void draw()
+  {
+    fill(173, 216, 230);  
+    rect(x,y,width,height);
+   if(mouseX > x && mouseX < x+ width && mouseY > y && mouseY < y + height)
+   {
+     cursor(HAND);
+   }
+   if (mousePressed) 
+    {
+      link(link);
+    }
+   else
+   {
+    cursor(ARROW); 
+   }
+  }
+}
+//class of the logo
+
+
+
+airPlane theAirPlane;
+button   theIButton;
+button   theIIButton;
+button   theIIIButton;
+button   theIVButton;
+logo     theLogo;
+
+
+void setup(){
+  PImage IMG;
+  size(1000,800);
+  IMG = loadImage("JP.jpg");
+  String linkI="http://www.google.com";
+  String titleI="table";
+  String linkII="http://www.google.com";
+  String titleII="table";
+  String linkIII="http://www.google.com";
+  String titleIII="table";
+  String linkIV="Alien.exe";
+  String titleIV="table";
+  String linkV="nmsl.exe"; 
+  theLogo=new logo(0,0,linkV);
+  theAirPlane=new airPlane(IMG);
+  theIButton= new button(160,0,linkI,titleI);
+  theIIButton= new button(370,0,linkII,titleII);
+  theIIIButton= new button(580,0,linkIII,titleIII);
+  theIVButton= new button(790,0,linkIV,titleIV);
+ }
+void draw()
+{
+  background(255);
+  fill(255,215,0);
+  textSize(64);
+  text("HOMEPAGE",500,80);
+  theAirPlane.draw();
+  theAirPlane.move();
+  theIButton.draw();
+  theIIButton.draw();
+  theIIIButton.draw();
+  theIVButton.draw();
+  theLogo.draw();
+}
