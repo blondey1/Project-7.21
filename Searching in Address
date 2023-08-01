@@ -70,7 +70,7 @@ void displaySearchResults()
       matches++;
       for (int j = 0; j < headers.length; j++) 
       {
-        text(data[i][j], 50 + j * 100, 100 + matches * 20);
+        text(data[i][j], 50 + j * 300, 100 + matches * 20);
       }
     }
   }
