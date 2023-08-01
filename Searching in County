@@ -1,1 +1,105 @@
+import processing.data.Table;
+import processing.data.TableRow;
 
+Table table;
+String[] headers;
+String[][] data;
+int rowCount;
+
+String searchQuery = "";
+boolean searching = false;
+
+void setup() 
+{
+  size(2000, 2000);
+  
+  table = loadTable("pricesEx.tsv", "header");
+  rowCount = table.getRowCount();
+  headers = table.getColumnTitles();
+  data = new String[rowCount][headers.length];
+  for (int i = 0; i < rowCount; i++) {
+    TableRow row = table.getRow(i);
+    for (int j = 0; j < headers.length; j++) 
+    {
+      data[i][j] = row.getString(headers[j]);
+    }
+  }
+}
+
+void draw() {
+  background(255);
+  
+  if (searching) 
+  {
+    displaySearchResults();
+  } 
+  else 
+  {
+    displayHomepage();
+  }
+}
+
+void displayHomepage() 
+{
+  fill(0);
+  textSize(16);
+  textAlign(LEFT, CENTER);
+  text("Enter County:", 50, 50);
+  rect(50, 70, 1000, 30);
+  fill(255);
+  text(searchQuery, 60, 85);
+}
+
+void displaySearchResults() 
+{
+  fill(0);
+  textSize(16);
+  textAlign(LEFT, CENTER);
+  text("Search Results:", 50, 50);
+  
+  for (int i = 0; i < headers.length; i++) 
+  {
+    text(headers[i], 50 + i * 300, 80);
+  }
+  
+  int matches = 0;
+  for (int i = 0; i < rowCount; i++) 
+  {
+    if (data[i][1].equals(searchQuery)) 
+    {
+      matches++;
+      for (int j = 0; j < headers.length; j++) 
+      {
+        text(data[i][j], 50 + j * 300, 100 + matches * 20);
+      }
+    }
+  }
+  
+  if (matches == 0) 
+  {
+    fill(255, 0, 0);
+    text("No matching county found.", 50, 100);
+  }
+}
+
+void keyPressed() 
+{
+    if (key == ENTER) 
+    {
+    searchQuery = trim(searchQuery);
+    searching = true;
+    } 
+    else if (key == BACKSPACE && searchQuery.length() > 0) 
+    {
+    searchQuery = searchQuery.substring(0, searchQuery.length() - 1);
+    } 
+    else if (isAlphanumericOrPunctuation(key) || key == ' ') 
+    {
+    searchQuery += key;
+    }
+}
+
+boolean isAlphanumericOrPunctuation(char c) 
+{
+  return Character.isLetterOrDigit(c) || !Character.isWhitespace(c) || c == ',' || c == '.' || c == '?' || c == '!';
+}
